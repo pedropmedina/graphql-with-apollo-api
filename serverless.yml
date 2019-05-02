@@ -1,0 +1,111 @@
+service: aws-apollo-lambda
+
+plugins:
+  - serverless-offline
+
+custom:
+  allowedHeaders:
+    - Accept
+    - Content-Type
+    - Content-Length
+    - Authorization
+    - X-Api-Key
+    - X-Amz-Date
+    - X-Amz-Security-Token
+    - X-Amz-User-Agent
+    - X-Apollo-Tracing
+  defaultStage: dev
+  defaultRegion: us-east-2
+  profiles:
+    dev: devServerless
+    prod: prodServerless
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: ${opt:region, self:custom.defaultRegion}
+  stage: ${opt:stage, self:custom.defaultStage}
+  profile: ${self:custom.profiles.${self:provider.stage}}
+  memorySize: 128
+  timeout: 5
+  endpointType: regional
+  environment:
+    NODE_ENV: ${self:provider.stage}
+    DYNAMODB_TABLE: ${self:service}-${self:provider.stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:PutItem
+        - dynamodb:DeleteItem
+        - dynamodb:UpdateItem
+      Resource: 'arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}'
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:UpdateItem
+      Resource: 'arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}/index/*'
+
+functions:
+  graphql:
+    handler: src/index.graphqlHandler
+    events:
+      - http:
+          path: graphql
+          method: post
+          cors:
+            origin: '*'
+            headers: ${self:custom.allowedHeaders}
+
+      - http:
+          path: graphql
+          method: get
+          cors:
+            origin: '*'
+            headers: ${self:custom.allowedHeaders}
+
+resources:
+  Resources:
+    TodosTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: N
+          - AttributeName: category
+            AttributeType: S
+          - AttributeName: todoId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: createdAt
+            KeyType: RANGE
+        LocalSecondaryIndexes:
+          - IndexName: todoIndex
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: todoId
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        GlobalSecondaryIndexes:
+          - IndexName: todoCategoryIndex
+            KeySchema:
+              - AttributeName: category
+                KeyType: HASH
+              - AttributeName: todoId
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

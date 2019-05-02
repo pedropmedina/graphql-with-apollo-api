@@ -1,0 +1,27 @@
+{
+  "name": "graphql-with-appollo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "nodemon": "^1.18.11",
+    "serverless-offline": "^4.9.4"
+  },
+  "dependencies": {
+    "apollo-server": "^2.4.8",
+    "apollo-server-lambda": "^2.4.8",
+    "aws-sdk": "^2.443.0",
+    "graphql": "^14.2.1",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "uuid": "^3.3.2"
+  }
+}

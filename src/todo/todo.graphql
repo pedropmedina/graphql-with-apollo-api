@@ -1,0 +1,36 @@
+type Todo {
+  userId: String!
+  todoId: String!
+  description: String!
+  createdAt: Int!
+  category: String!
+}
+
+input TodoInput {
+  userId: String!
+  description: String!
+  category: String = "uncategorized"
+}
+
+input UpdateTodoInput {
+  userId: String!
+  todoId: String!
+  createdAt: Int!
+  description: String!
+}
+
+input DeleteTodoInput {
+  userId: String!
+  createdAt: Int!
+}
+
+type Query {
+  getTodo(id: String!): Todo!
+  getTodos: [Todo]!
+}
+
+type Mutation {
+  addTodo(input: TodoInput!): Todo!
+  updateTodo(input: UpdateTodoInput!): Todo!
+  deleteTodo(input: DeleteTodoInput!): Todo!
+}
