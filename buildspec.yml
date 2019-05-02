@@ -7,11 +7,11 @@ phases:
       - npm install -g serverless
   pre_build:
     commands:
+      - echo Installing source NPM dependencies...
+      - npm install
       - echo Creating new aws named-profiles for both dev and prod usage...
       - serverless config credentials --provider aws --key $AWS_ACCESS_KEY_DEV --secret $AWS_SECRET_DEV --profile devServerless
       - serverless config credentials --provider aws --key $AWS_ACCESS_KEY_PROD --secret $AWS_SECRET_PROD --profile prodServerless
-      - echo Installing source NPM dependencies...
-      - npm install
   build:
     commands:
       - echo Deployment started on `date`
