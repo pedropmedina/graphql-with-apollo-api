@@ -101,6 +101,7 @@ const updateTodo = async (_, { input }) => {
   }
 };
 
+// delete todo
 const deleteTodo = async (_, args) => {
   try {
     const { userId, createdAt } = args.input;
