@@ -23,7 +23,6 @@ custom:
   customDomain:
     domainName: api.doonzo.xyz
     stage: ${self:provider.stage}
-    basePath: graphql
     certificateName: doonzo.xyz
     createRoute53Record: true
 
