@@ -2,7 +2,7 @@ service: aws-apollo-lambda
 
 plugins:
   - serverless-offline
-  - serverless-domain-manager
+  # - serverless-domain-manager
 
 custom:
   allowedHeaders:
@@ -20,11 +20,11 @@ custom:
   profiles:
     dev: devServerless
     prod: prodServerless
-  customDomain:
-    domainName: api.doonzo.xyz
-    stage: ${self:provider.stage}
-    certificateName: doonzo.xyz
-    createRoute53Record: true
+  # customDomain:
+  #   domainName: api.doonzo.xyz
+  #   stage: ${self:provider.stage}
+  #   certificateName: doonzo.xyz
+  #   createRoute53Record: true
 
 provider:
   name: aws
