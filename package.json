@@ -20,7 +20,9 @@
     "apollo-server": "^2.4.8",
     "apollo-server-lambda": "^2.4.8",
     "aws-sdk": "^2.443.0",
+    "dotenv": "^8.0.0",
     "graphql": "^14.2.1",
+    "jwt-decode": "^2.2.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "uuid": "^3.3.2"

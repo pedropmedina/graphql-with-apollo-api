@@ -1,0 +1,3 @@
+extend type Mutation {
+  signup(id: String!): String!
+}

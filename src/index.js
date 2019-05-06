@@ -3,8 +3,9 @@ const { ApolloServer } = require('apollo-server-lambda');
 const _ = require('lodash');
 
 const { todoDefs, todoResolvers } = require('./todo');
-const typeDefs = [todoDefs].join(' ');
-const resolvers = _.merge(todoResolvers);
+const { authDefs, authResolvers } = require('./auth');
+const typeDefs = [todoDefs, authDefs].join(' ');
+const resolvers = _.merge(todoResolvers, authResolvers);
 
 const server = new ApolloServer({
   typeDefs,
