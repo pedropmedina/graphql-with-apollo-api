@@ -10,14 +10,12 @@ const resolvers = _.merge({}, todoResolvers, authResolvers);
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ event, context }) =>
-    console.log(context) || {
-      headers: event.headers,
-      functionName: context.functionName,
-      event,
-      context
-    },
-  uploads: false,
+  context: ({ event, context }) => ({
+    headers: event.headers,
+    functionName: context.functionName,
+    event,
+    context
+  }),
   playground: process.env.NODE_ENV === 'prod' ? false : true,
   introspection: process.env.NODE_ENV === 'prod' ? false : true
 });

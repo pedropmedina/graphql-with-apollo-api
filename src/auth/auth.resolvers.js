@@ -44,5 +44,7 @@ const signup = async (_, args) => {
 };
 
 module.exports = {
-  signup
+  Mutation: {
+    signup
+  }
 };
