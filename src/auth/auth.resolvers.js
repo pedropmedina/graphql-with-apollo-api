@@ -8,7 +8,7 @@ const cognitoidentity = new AWS.CognitoIdentity();
 
 const IdentityPoolId = process.env.COGNITO_IDENTITY_POOL_ID;
 
-const singup = async (_, args) => {
+const signup = async (_, args) => {
   try {
     let id_token = args.id;
 
@@ -44,5 +44,5 @@ const singup = async (_, args) => {
 };
 
 module.exports = {
-  singup
+  signup
 };
