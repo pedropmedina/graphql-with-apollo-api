@@ -60,7 +60,6 @@ functions:
       - http:
           path: graphql
           method: post
-          authorizer: aws_iam
           cors:
             origin: '*'
             headers: ${self:custom.allowedHeaders}
